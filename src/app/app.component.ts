@@ -11,12 +11,14 @@ export class AppComponent {
   items: FirebaseListObservable<any[]>;
   latitude : number;
   longitude : number;
+  speed : number;
+  isAuth : boolean = false;
 
   constructor(public af: AngularFire){
     this.af.auth.subscribe(auth => this.onAuth(auth));
     this.items = af.database.list('/hex_to_key');
   }
-  title = 'app works!';
+  title = 'Friends Location Website';
 
   login() {
     this.af.auth.login();
@@ -34,6 +36,7 @@ export class AppComponent {
 
   // add data listener to database current last Location
   onAuth(auth : any) {
+    this.isAuth = true;
     var path : string = '/user_detail/'+auth.uid+'/lastLocation/';
     // this.items = this.af.database.list(path);
     this.af.database.list(path, { preserveSnapshot: true})
@@ -47,6 +50,10 @@ export class AppComponent {
           if (snapshot.key == 'longitude') {
             console.log('longitude: ' + snapshot.val());
             this.longitude = snapshot.val();
+          }
+          if (snapshot.key == 'speed') {
+            console.log('speed: ' + snapshot.val());
+            this.speed = snapshot.val();
           }
         });
 

@@ -2,9 +2,14 @@
   {{title}}
 </h1>
 <!-- <div> {{ (af.auth | async)?.uid }} </div> -->
-<button (click)="login()">Login</button>
-<button (click)="logout()">Logout</button>
+<div *ngIf="isAuth == false">
+  <button (click)="login()">Login</button>
+  <button (click)="logout()">Logout</button>
+</div>
 
-<sebm-google-map [latitude]="latitude" [longitude]="longitude" [zoom]="15">
-  <sebm-google-map-marker [latitude]="latitude" [longitude]="longitude"></sebm-google-map-marker>
-</sebm-google-map>
+<div *ngIf="isAuth">
+  <h2> Speed : {{speed}} </h2>
+  <sebm-google-map [latitude]="latitude" [longitude]="longitude" [zoom]="15">
+    <sebm-google-map-marker [latitude]="latitude" [longitude]="longitude"></sebm-google-map-marker>
+  </sebm-google-map>
+</div>
